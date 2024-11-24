@@ -4,10 +4,10 @@ from typing import Optional
 
 app = FastAPI()
 
-@app.post("/parse")
+@app.post('/parse')
 async def parse_document(
     file: UploadFile = File(...),
-    language: Optional[str] = Form(default="en"),
+    language: Optional[str] = Form(default='en'),
     target_pages: Optional[str] = Form(default=None)
 ):
     parser = LlamaParse(
@@ -25,14 +25,14 @@ async def parse_document(
         )
         
         return {
-            "status": "success",
-            "documents": [{'text': doc.text, 'meta': doc.metadata} for doc in documents]
+            'success': True,
+            'content': [{'text': doc.text, 'meta': doc.metadata} for doc in documents]
         }
     
     except Exception as e:
         return {
-            "status": "error",
-            "message": str(e)
+            'success': False,
+            'error': str(e)
         }
     
     finally:
